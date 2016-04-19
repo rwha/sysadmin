@@ -23,33 +23,30 @@ EDATEM=$(echo $CERTINFO | awk '{print $1}')
 EDATED=$(echo $CERTINFO | awk '{print $2}')
 NFPRINT=$(echo $CERTINFO | awk '{print $6}' )
  
-if [ $OFPRINT = $NFPRINT ] 
-then
-	echo "There is a fetchmail error not related to the SSL certificate" >> /tmp/msg.txt
-	exit 1;
+[ $OFPRINT = $NFPRINT ] && exit 1
+
+crontab -l |sed -e 's=\(^.*/usr/bin/fetchmail\)=#\1=' | crontab -
+
+while [ -n "$(ps aux | egrep fetchmai[l])" ]; do
+    sleep 1
+done
+
+cp $CERTFILE /root/backup/gmail.oldpem
+cp $RCFILE /root/backup/rcfile
+
+sed -i 's/'$OFPRINT'/'$NFPRINT'/g' $RCFILE || { crontab -l | sed -e 's=^#\(.*/usr/bin/fetchmail\)=\1=' | crontab -; exit 2; }
+
+NCCOUNT=$(wc -m $RCFILE)
+
+if [ "$NCCOUNT" = "$CCOUNT" ]; then
+    mv /tmp/gmail.pem $CERTFILE
+    c_rehash $CERTPATH > /dev/null 2>&1
+    crontab -l | sed -e 's=^#\(.*/usr/bin/fetchmail\)=\1=' | crontab -
+    exit 3
 else
-	crontab -l |sed -e 's=\(^.*/usr/bin/fetchmail\)=#\1=' | crontab -
-	ST=0
-	while [ $ST -lt 5 ]; do 
-	 FSTATUS=$(ps auxww|grep fetchmail|wc -l)
-	 if [ $FSTATUS -gt 1 ]; then sleep 5; fi
-	 ((ST++));
-	done
-	cp $CERTFILE /tmp/gmail.oldpem
-	cp $RCFILE /tmp/rcfile
-	sed -i 's/'$OFPRINT'/'$NFPRINT'/g' $RCFILE || { echo "unable to edit ${RCFILE}... exiting" >> /tmp/msg.txt; STATUS=2; crontab -l | sed -e 's=^#\(.*/usr/bin/fetchmail\)=\1=' | crontab -; exit $STATUS; }
-	NCCOUNT=$(wc -m $RCFILE)
-	if [ "$NCCOUNT" = "$CCOUNT" ] 
-	 then 
-	  STATUS=3
-	  mv /tmp/gmail.pem $CERTFILE
-	  c_rehash $CERTPATH > /dev/null 2>&1
-	 else 
-	  STATUS=2
-	  mv ~/backup.rcfile $RCFILE
-	  echo "Updating $RCFILE failed. Manually edit this file to replace" >> /tmp/msg.txt; 
-	  echo "$OFPRINT with $NFPRINT" >> /tmp/msg.txt
-	fi	
-	crontab -l | sed -e 's=^#\(.*/usr/bin/fetchmail\)=\1=' | crontab -
-	exit $STATUS;		
+    mv ~/backup.rcfile $RCFILE
+    echo "Updating $RCFILE failed. Manually edit this file to replace" >> /tmp/msg.txt;
+    echo "$OFPRINT with $NFPRINT" >> /tmp/msg.txt
+    crontab -l | sed -e 's=^#\(.*/usr/bin/fetchmail\)=\1=' | crontab -
+    exit 2
 fi
