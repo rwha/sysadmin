@@ -1,0 +1,808 @@
+
+{
+  "format_version": 0,
+  "result": {
+    "query_time": 1460571522000,
+    "cgi": "statusjson.cgi",
+    "program_start": 1459943206000,
+    "type_code": 4,
+    "type_text": "Option Missing",
+    "message": "Missing validation for object type 0."
+  },
+  "data": {
+    "options": {
+      "query": {
+        "label": "Query",
+        "type": "enumeration",
+        "required": [
+          "all"
+        ],
+        "optional": [
+        ],
+        "depends_on": "",
+        "description": "Specifies the type of query to be executed.",
+        "valid_values": {
+          "hostcount": {
+            "description": "Return the number of hosts in each state"
+          },
+          "hostlist": {
+            "description": "Return a list of hosts and their current status"
+          },
+          "host": {
+            "description": "Return the status of a single host."
+          },
+          "servicecount": {
+            "description": "Return the number of services in each state"
+          },
+          "servicelist": {
+            "description": "Return a list of services and their current status"
+          },
+          "service": {
+            "description": "Return the status of a single service"
+          },
+          "commentcount": {
+            "description": "Return the number of comments"
+          },
+          "commentlist": {
+            "description": "Return a list of comments"
+          },
+          "comment": {
+            "description": "Return a single comment"
+          },
+          "downtimecount": {
+            "description": "Return the number of downtimes"
+          },
+          "downtimelist": {
+            "description": "Return a list of downtimes"
+          },
+          "downtime": {
+            "description": "Return a single downtime"
+          },
+          "programstatus": {
+            "description": "Return the Nagios Core program status"
+          },
+          "performancedata": {
+            "description": "Return the Nagios Core performance data"
+          },
+          "help": {
+            "description": "Display help for this CGI"
+          }
+        }
+      },
+      "formatoptions": {
+        "label": "Format Options",
+        "type": "list",
+        "required": [
+        ],
+        "optional": [
+          "all"
+        ],
+        "depends_on": "",
+        "description": "Specifies the formatting options to be used when displaying the results. Multiple options are allowed and are separated by a plus (+) sign..",
+        "valid_values": {
+          "whitespace": {
+            "description": "Pad with whitespace to increase readability"
+          },
+          "enumerate": {
+            "description": "Use textual representations of enumerated values rather than raw numeric values"
+          },
+          "bitmask": {
+            "description": "Use textual representations of bitmask values rather than raw numeric values"
+          },
+          "duration": {
+            "description": "Use textual representations (xd xh xm xs) of duration values rather than raw number of seconds"
+          }
+        }
+      },
+      "start": {
+        "label": "Start",
+        "type": "integer",
+        "required": [
+        ],
+        "optional": [
+          "hostlist",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Specifies the index (zero-based) of the first object in the list to be returned."
+      },
+      "count": {
+        "label": "Count",
+        "type": "integer",
+        "required": [
+        ],
+        "optional": [
+          "hostlist",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Specifies the number of objects in the list to be returned."
+      },
+      "parenthost": {
+        "label": "Parent Host",
+        "type": "nagios:objectjson/hostlist",
+        "required": [
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist",
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Limits the hosts or serivces returned to those whose host parent is specified. A value of 'none' returns all hosts or services reachable directly by the Nagios core host.",
+        "valid_values": {
+          "none": {
+            "description": "Hosts that are directly reachable by the Nagios Core host"
+          }
+        }
+      },
+      "childhost": {
+        "label": "Child Host",
+        "type": "nagios:objectjson/hostlist",
+        "required": [
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist",
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Limits the hosts or serivces returned to those whose having the host specified as a child host. A value of 'none' returns all hosts or services with no child hosts.",
+        "valid_values": {
+          "none": {
+            "description": "Hosts that have no child hosts"
+          }
+        }
+      },
+      "details": {
+        "label": "Show Details",
+        "type": "boolean",
+        "required": [
+        ],
+        "optional": [
+          "hostlist",
+          "servicelist",
+          "commentlist",
+          "downtimelist"
+        ],
+        "depends_on": "",
+        "description": "Returns the details for all entities in the list."
+      },
+      "dateformat": {
+        "label": "Date Format",
+        "type": "string",
+        "required": [
+        ],
+        "optional": [
+          "all"
+        ],
+        "depends_on": "",
+        "description": "strftime format string for values of type time_t. In the absence of a format, the Javascript default format of the number of milliseconds since the beginning of the Unix epoch is used. Because of URL encoding, percent signs must be encoded as %25 and a space must be encoded as a plus (+) sign."
+      },
+      "hostname": {
+        "label": "Host Name",
+        "type": "nagios:objectjson/hostlist",
+        "required": [
+          "host",
+          "service"
+        ],
+        "optional": [
+          "servicecount",
+          "servicelist",
+          "commentcount",
+          "commentlist",
+          "downtimecount",
+          "downtimelist"
+        ],
+        "depends_on": "",
+        "description": "Name for the host requested."
+      },
+      "hostgroup": {
+        "label": "Host Group",
+        "type": "nagios:objectjson/hostgrouplist",
+        "required": [
+          "hostgroup"
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist",
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Returns information applicable to the hostgroup or the hosts in the hostgroup depending on the query."
+      },
+      "hoststatus": {
+        "label": "Host Status",
+        "type": "list",
+        "required": [
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist",
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Limits returned information to those hosts whose status matches this list. Host statuses are space separated.",
+        "valid_values": {
+          "up": {
+            "description": "HOST_UP"
+          },
+          "down": {
+            "description": "HOST_DOWN"
+          },
+          "unreachable": {
+            "description": "HOST_UNREACHABLE"
+          },
+          "pending": {
+            "description": "HOST_PENDING"
+          }
+        }
+      },
+      "servicegroup": {
+        "label": "Service Group",
+        "type": "nagios:objectjson/servicegrouplist",
+        "required": [
+          "servicegroup"
+        ],
+        "optional": [
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Returns information applicable to the servicegroup or the services in the servicegroup depending on the query."
+      },
+      "servicestatus": {
+        "label": "Service Status",
+        "type": "list",
+        "required": [
+        ],
+        "optional": [
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Limits returned information to those services whose status matches this list. Service statuses are space separated.",
+        "valid_values": {
+          "ok": {
+            "description": "SERVICE_OK"
+          },
+          "warning": {
+            "description": "SERVICE_WARNING"
+          },
+          "critical": {
+            "description": "SERVICE_CRITICAL"
+          },
+          "unknown": {
+            "description": "SERVICE_UNKNOWN"
+          },
+          "pending": {
+            "description": "SERVICE_PENDING"
+          }
+        }
+      },
+      "parentservice": {
+        "label": "Parent Service",
+        "type": "nagios:objectjson/servicelist",
+        "required": [
+        ],
+        "optional": [
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Limits the serivces returned to those whose service parent has the name specified. A value of 'none' returns all services with no service parent.",
+        "valid_values": {
+          "none": {
+            "description": "Services that have no parent services"
+          }
+        }
+      },
+      "childservice": {
+        "label": "Child Service",
+        "type": "nagios:objectjson/servicelist",
+        "required": [
+        ],
+        "optional": [
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Limits the serivces returned to those whose having the named service as a child service. A value of 'none' returns all services with no child services.",
+        "valid_values": {
+          "none": {
+            "description": "Services that have no child services"
+          }
+        }
+      },
+      "contactgroup": {
+        "label": "Contact Group",
+        "type": "nagios:objectjson/contactgrouplist",
+        "required": [
+          "contactgroup"
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist",
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Returns information applicable to the contactgroup or the contacts in the contactgroup depending on the query."
+      },
+      "servicedescription": {
+        "label": "Service Description",
+        "type": "nagios:objectjson/servicelist",
+        "required": [
+          "service"
+        ],
+        "optional": [
+          "servicecount",
+          "servicelist",
+          "commentcount",
+          "commentlist",
+          "downtimecount",
+          "downtimelist"
+        ],
+        "depends_on": "hostname",
+        "description": "Description for the service requested."
+      },
+      "checktimeperiod": {
+        "label": "Check Timeperiod Name",
+        "type": "nagios:objectjson/timeperiodlist",
+        "required": [
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist",
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Name of a check timeperiod to be used as selection criteria."
+      },
+      "hostnotificationtimeperiod": {
+        "label": "Host Notification Timeperiod Name",
+        "type": "nagios:objectjson/timeperiodlist",
+        "required": [
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist"
+        ],
+        "depends_on": "",
+        "description": "Name of a host notification timeperiod to be used as selection criteria."
+      },
+      "servicenotificationtimeperiod": {
+        "label": "Service Notification Timeperiod Name",
+        "type": "nagios:objectjson/timeperiodlist",
+        "required": [
+        ],
+        "optional": [
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Name of a service notification timeperiod to be used as selection criteria."
+      },
+      "checkcommand": {
+        "label": "Check Command Name",
+        "type": "nagios:objectjson/commandlist",
+        "required": [
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist",
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Name of a check command to be be used as a selector."
+      },
+      "eventhandler": {
+        "label": "Event Handler Name",
+        "type": "nagios:objectjson/commandlist",
+        "required": [
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist",
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Name of an event handler to be be used as a selector."
+      },
+      "commenttypes": {
+        "label": "Comment Type",
+        "type": "list",
+        "required": [
+        ],
+        "optional": [
+          "commentcount",
+          "commentlist"
+        ],
+        "depends_on": "",
+        "description": "Comment type for the comment requested.",
+        "valid_values": {
+          "host": {
+            "description": "Host Comment"
+          },
+          "service": {
+            "description": "Service Comment"
+          }
+        }
+      },
+      "entrytypes": {
+        "label": "Entry Type",
+        "type": "list",
+        "required": [
+        ],
+        "optional": [
+          "commentcount",
+          "commentlist"
+        ],
+        "depends_on": "",
+        "description": "Entry type for the comment requested.",
+        "valid_values": {
+          "user": {
+            "description": "User Comment"
+          },
+          "downtime": {
+            "description": "Downtime Comment"
+          },
+          "flapping": {
+            "description": "Flapping Comment"
+          },
+          "acknowledgement": {
+            "description": "Acknowledgement Comment"
+          }
+        }
+      },
+      "persistence": {
+        "label": "Comment Persistence",
+        "type": "list",
+        "required": [
+        ],
+        "optional": [
+          "commentcount",
+          "commentlist"
+        ],
+        "depends_on": "",
+        "description": "Persistence for the comment requested.",
+        "valid_values": {
+          "yes": {
+            "description": "Persistent Comment"
+          },
+          "no": {
+            "description": "Non-Persistent Comment"
+          }
+        }
+      },
+      "expiring": {
+        "label": "Comment Expiration",
+        "type": "list",
+        "required": [
+        ],
+        "optional": [
+          "commentcount",
+          "commentlist"
+        ],
+        "depends_on": "",
+        "description": "Whether or not the comment expires.",
+        "valid_values": {
+          "yes": {
+            "description": "Comment Expires"
+          },
+          "no": {
+            "description": "Comment Does Not Expire"
+          }
+        }
+      },
+      "downtimeobjecttypes": {
+        "label": "Downtime Object Type",
+        "type": "list",
+        "required": [
+        ],
+        "optional": [
+          "downtimecount",
+          "downtimelist"
+        ],
+        "depends_on": "",
+        "description": "The type of object to which the downtime applies.",
+        "valid_values": {
+          "host": {
+            "description": "Host Downtime"
+          },
+          "service": {
+            "description": "Service Downtime"
+          }
+        }
+      },
+      "downtimetypes": {
+        "label": "Downtime Type",
+        "type": "list",
+        "required": [
+        ],
+        "optional": [
+          "downtimecount",
+          "downtimelist"
+        ],
+        "depends_on": "",
+        "description": "The type of the downtime.",
+        "valid_values": {
+          "fixed": {
+            "description": "Fixed Downtime"
+          },
+          "flexible": {
+            "description": "Flexible Downtime"
+          }
+        }
+      },
+      "triggered": {
+        "label": "Downtime Triggered",
+        "type": "list",
+        "required": [
+        ],
+        "optional": [
+          "downtimecount",
+          "downtimelist"
+        ],
+        "depends_on": "",
+        "description": "Whether or not the downtime is triggered.",
+        "valid_values": {
+          "yes": {
+            "description": "Downtime Triggered"
+          },
+          "no": {
+            "description": "Downtime Not Triggered"
+          }
+        }
+      },
+      "triggeredby": {
+        "label": "Triggered By",
+        "type": "nagios:statusjson/downtimelist",
+        "required": [
+        ],
+        "optional": [
+          "downtimecount",
+          "downtimelist"
+        ],
+        "depends_on": "",
+        "description": "ID of the downtime which triggers other downtimes."
+      },
+      "ineffect": {
+        "label": "Downtime In Effect",
+        "type": "list",
+        "required": [
+        ],
+        "optional": [
+          "downtimecount",
+          "downtimelist"
+        ],
+        "depends_on": "",
+        "description": "Whether or not the downtime is in effect.",
+        "valid_values": {
+          "yes": {
+            "description": "Downtime In Effect"
+          },
+          "no": {
+            "description": "Downtime Not In Effect"
+          }
+        }
+      },
+      "commentid": {
+        "label": "Comment ID",
+        "type": "nagios:statusjson/commentlist",
+        "required": [
+          "comment"
+        ],
+        "optional": [
+        ],
+        "depends_on": "",
+        "description": "Comment ID for the comment requested."
+      },
+      "downtimeid": {
+        "label": "Downtime ID",
+        "type": "nagios:statusjson/downtimelist",
+        "required": [
+          "downtime"
+        ],
+        "optional": [
+        ],
+        "depends_on": "",
+        "description": "Downtime ID for the downtime requested."
+      },
+      "contactname": {
+        "label": "Contact Name",
+        "type": "nagios:objectjson/contactlist",
+        "required": [
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist",
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Name for the contact requested."
+      },
+      "hosttimefield": {
+        "label": "Host Time Field",
+        "type": "enumeration",
+        "required": [
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist"
+        ],
+        "depends_on": "",
+        "description": "Field to use when comparing times on a hostlist query.",
+        "valid_values": {
+          "lastupdate": {
+            "description": "Last Update"
+          },
+          "lastcheck": {
+            "description": "Last Check"
+          },
+          "nextcheck": {
+            "description": "Next Check"
+          },
+          "laststatechange": {
+            "description": "Last State Change"
+          },
+          "lasthardstatechange": {
+            "description": "Last Hard State Change"
+          },
+          "lasttimeup": {
+            "description": "Last Time Up"
+          },
+          "lasttimedown": {
+            "description": "Last Time Down"
+          },
+          "lasttimeunreachable": {
+            "description": "Last Time Unreachable"
+          },
+          "lastnotification": {
+            "description": "Last Notification"
+          },
+          "nextnotification": {
+            "description": "Next Notification"
+          }
+        }
+      },
+      "servicetimefield": {
+        "label": "Service Time Field",
+        "type": "enumeration",
+        "required": [
+        ],
+        "optional": [
+          "servicecount",
+          "servicelist"
+        ],
+        "depends_on": "",
+        "description": "Field to use when comparing times on a servicelist query.",
+        "valid_values": {
+          "lastupdate": {
+            "description": "Last Update"
+          },
+          "lastcheck": {
+            "description": "Last Check"
+          },
+          "nextcheck": {
+            "description": "Next Check"
+          },
+          "laststatechange": {
+            "description": "Last State Change"
+          },
+          "lasthardstatechange": {
+            "description": "Last Hard State Change"
+          },
+          "lasttimeok": {
+            "description": "Last Time OK"
+          },
+          "lasttimewarning": {
+            "description": "Last Time Warning"
+          },
+          "lasttimecritical": {
+            "description": "Last Time Critical"
+          },
+          "lasttimeunknown": {
+            "description": "Last Time Unknown"
+          },
+          "lastnotification": {
+            "description": "Last Notification"
+          },
+          "nextnotification": {
+            "description": "Next Notification"
+          }
+        }
+      },
+      "commenttimefield": {
+        "label": "Comment Time Field",
+        "type": "enumeration",
+        "required": [
+        ],
+        "optional": [
+          "commentcount",
+          "commentlist"
+        ],
+        "depends_on": "",
+        "description": "Field to use when comparing times on a commentlist query.",
+        "valid_values": {
+          "entrytime": {
+            "description": "Entry Time"
+          },
+          "expiretime": {
+            "description": "Expiration Time"
+          }
+        }
+      },
+      "downtimetimefield": {
+        "label": "Downtime Time Field",
+        "type": "enumeration",
+        "required": [
+        ],
+        "optional": [
+          "downtimecount",
+          "downtimelist"
+        ],
+        "depends_on": "",
+        "description": "Field to use when comparing times on a downtimelist query.",
+        "valid_values": {
+          "entrytime": {
+            "description": "Entry Time"
+          },
+          "starttime": {
+            "description": "Start Time"
+          },
+          "flexdowntimestart": {
+            "description": "Flex Downtime Start"
+          },
+          "endtime": {
+            "description": "End Time"
+          }
+        }
+      },
+      "starttime": {
+        "label": "Start Time",
+        "type": "integer",
+        "required": [
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist",
+          "servicecount",
+          "servicelist",
+          "commentcount",
+          "commentlist",
+          "downtimecount",
+          "downtimelist"
+        ],
+        "depends_on": "",
+        "description": "Starting time to use when querying based on a time range. Not specifying a start time implies all entries since the beginning of time. Supplying a plus or minus sign means times relative to the query time."
+      },
+      "endtime": {
+        "label": "End Time",
+        "type": "integer",
+        "required": [
+        ],
+        "optional": [
+          "hostcount",
+          "hostlist",
+          "servicecount",
+          "servicelist",
+          "commentcount",
+          "commentlist",
+          "downtimecount",
+          "downtimelist"
+        ],
+        "depends_on": "",
+        "description": "Ending time to use when querying based on a time range. Not specifying an end time implies all entries until the time of the query. Specifying plus or minus sign means times relative to the query time."
+      }
+    }
+  }
+}
